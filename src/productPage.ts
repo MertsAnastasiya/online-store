@@ -41,27 +41,27 @@ export class ProductPage {
                 </div>
             </div>
             <div class="modal-window display-none">
-        <p class="modal__close">&times;</p>
-        <p class="modal__text">Make a payment</p>
-        <form  class="modal__form">
-          <div class="systems">
-            <img src="../../assets/icons/mastercard.png" class="img_payments" alt="card type">
-            <input type="text" class="input input_card-number">
-          </div>
-          <div class="modal__data">
-            <input type="text" class="input input_name" placeholder="Name">
-            <input type="phone" class="input input_phone" placeholder="Phone">
-            <input type="text" class="input input_address" placeholder="Delivery address">
-            <input type="email" class="input input_email" placeholder="E-mail">
-            <input type="text" class="input input_valid" id="input_valid" placeholder="Valid date">
-            <input type="text" class="input input_code" id="input_code" placeholder="CVV">
-          </div>
-          <div class="buttons__wrapper">
-            <button type="submit" class="button button-pay">Pay</button>
-          </div>
-        </form>
-      </div>
-      <div class="modal-background display-none"></div>`;
+                <p class="modal__close">&times;</p>
+                <p class="modal__text">Make a payment</p>
+                <form  class="modal__form">
+                    <div class="systems">
+                        <img src="../../assets/icons/mastercard.png" class="img_payments" alt="card type">
+                        <input type="text" class="input input_card-number">
+                    </div>
+                    <div class="modal__data">
+                        <input type="text" class="input input_name" placeholder="Name">
+                        <input type="phone" class="input input_phone" placeholder="Phone">
+                        <input type="text" class="input input_address" placeholder="Delivery address">
+                        <input type="email" class="input input_email" placeholder="E-mail">
+                        <input type="text" class="input input_valid" id="input_valid" placeholder="Valid date">
+                        <input type="text" class="input input_code" id="input_code" placeholder="CVV">
+                    </div>
+                    <div class="buttons__wrapper">
+                        <button type="submit" class="button button-pay">Pay</button>
+                    </div>
+                </form>
+            </div>
+        <div class="modal-background display-none"></div>`;
     }
 
     public drawProductPage() {
