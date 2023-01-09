@@ -105,7 +105,7 @@ export class ProductPage {
         const buttonBuy: Element = document.querySelector('.button_buy')!;
         buttonBuy.addEventListener('click', () => {
             const modalWindow = document.querySelector('.modal-window');
-            console.log(modalWindow);
+            console.log('click');
 
             modalWindow?.classList.remove('display-none');
             const modalBackground = document.querySelector('.modal-background');
