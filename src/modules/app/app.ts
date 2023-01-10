@@ -57,6 +57,8 @@ export class App {
             productView.drawProductPage();
         } else {
             this.globalFiltres.createFilters(productsData);
+            // console.log(this.getMinPrice(productsData));
+            // console.log(this.getMaxPrice(productsData));
             if (Object.keys(searchParams).length !== 0) {
                 console.log(searchParams);
 
