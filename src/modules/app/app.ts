@@ -7,6 +7,7 @@ import { ProductList } from '../product/productList';
 import { Cart } from '../cart';
 import { SearchParams } from '../searchParams';
 import { Button } from '../filters/button';
+import { ProductPage } from '../../productPage';
 
 export class App {
     private productList: ProductList;
@@ -46,20 +47,41 @@ export class App {
 
     public start(): void {
         this.cart.drawCart();
-        this.cart.setCurrentValues('0', '0');
+        this.cart.setCurrentValues(this.getSum(), this.getCount());
         this.cart.resetBtn(); // will be remove at the end
-        this.globalFiltres.createFilters(productsData);
 
-        const startFilters: Map<FilterType, Set<string>> = this.globalFiltres.getCurrentFilters();
-        const startSliders: Map<SliderType, SliderValue> = this.globalFiltres.getCurrentSliders();
-        this.updateResult(startFilters, startSliders, '');
+        const searchParams = Object.fromEntries(new URLSearchParams(window.location.search));
 
-        const btnCopy = new Button(
-            document.querySelector('.buttons__wrapper')!,
-            (type: string) => this.onClickButton(type)
-        );
-        btnCopy.drawButton('copy');
-        btnCopy.drawButton('reset');
+        if (Object.keys(searchParams).includes('id')) {
+            const productView = new ProductPage(document.querySelector('.main__container')!,Number(searchParams.id));
+            productView.drawProductPage();
+        } else {
+            this.globalFiltres.createFilters(productsData);
+            if (Object.keys(searchParams).length !== 0) {
+                console.log(searchParams);
+
+                for(const key in searchParams) {
+                    if (key === 'price' || key === 'stock') {
+                        console.log(searchParams[key]);
+                        const objectMinMax: SliderValue = {min: Number(searchParams[key]!.split('/')[0]), max: Number(searchParams[key]!.split('/')[1])};
+                        this.globalFiltres.setCurrentSliders(key as SliderType, objectMinMax);
+                    } else if (key === 'category' || key === 'brand') {
+                        searchParams[key]!.split('|').forEach((item) => {
+                            const checkbox =  document.getElementById(item!)! as HTMLInputElement;
+                            checkbox.checked = true;
+                            this.globalFiltres.setCurrentFilters(key as FilterType, item);
+                        })
+                    }
+                }
+            }
+            this.updateResult(this.globalFiltres.getCurrentFilters(), this.globalFiltres.getCurrentSliders(), searchParams['search'] || '');
+            const button = new Button(
+                document.querySelector('.buttons__wrapper')!,
+                (type: string) => this.onClickButton(type)
+            );
+            button.drawButton('copy');
+            button.drawButton('reset');
+        }
     }
 
     public updateResult(
@@ -96,7 +118,7 @@ export class App {
 
     public onProductClick(id: number) {
         window.open(
-            `${window.location.href}product.html?id=${id}`,
+            `${window.location.href}?id=${id}`,
             '_blank'
         );
     }

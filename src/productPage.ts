@@ -8,10 +8,8 @@ export class ProductPage {
     private productDataLayout: string;
     private product: IProduct;
 
-    constructor(parent: Element) {
-        const params = Object.fromEntries(new URLSearchParams(window.location.search));
-        const paramsId = Number(params.id);
-        this.product = productsData.filter((data) => data.id === paramsId)[0]!;
+    constructor(parent: Element, id: number) {
+        this.product = productsData.filter((data) => data.id === id)[0]!;
 
         this.parent = parent;
         this.productDataLayout = `
@@ -40,28 +38,7 @@ export class ProductPage {
                     </div>
                 </div>
             </div>
-            <div class="modal-window display-none">
-                <p class="modal__close">&times;</p>
-                <p class="modal__text">Make a payment</p>
-                <form  class="modal__form">
-                    <div class="systems">
-                        <img src="../../assets/icons/mastercard.png" class="img_payments" alt="card type">
-                        <input type="text" class="input input_card-number">
-                    </div>
-                    <div class="modal__data">
-                        <input type="text" class="input input_name" placeholder="Name">
-                        <input type="phone" class="input input_phone" placeholder="Phone">
-                        <input type="text" class="input input_address" placeholder="Delivery address">
-                        <input type="email" class="input input_email" placeholder="E-mail">
-                        <input type="text" class="input input_valid" id="input_valid" placeholder="Valid date">
-                        <input type="text" class="input input_code" id="input_code" placeholder="CVV">
-                    </div>
-                    <div class="buttons__wrapper">
-                        <button type="submit" class="button button-pay">Pay</button>
-                    </div>
-                </form>
-            </div>
-        <div class="modal-background display-none"></div>`;
+        </div>`;
     }
 
     public drawProductPage() {
@@ -101,25 +78,5 @@ export class ProductPage {
             }
             i++;
         }
-
-        const buttonBuy: Element = document.querySelector('.button_buy')!;
-        buttonBuy.addEventListener('click', () => {
-            const modalWindow = document.querySelector('.modal-window');
-            console.log('click');
-
-            modalWindow?.classList.remove('display-none');
-            const modalBackground = document.querySelector('.modal-background');
-            modalBackground?.classList.remove('display-none');
-
-            const modalClose = document.querySelector('.modal__close');
-            modalClose?.addEventListener('click', () => {
-                modalWindow?.classList.add('display-none');
-                modalBackground?.classList.add('display-none');
-            })
-        });
     }
 }
-
-//I'm not sure of it
-const page = new ProductPage(document.querySelector('main')!);
-page.drawProductPage();
