@@ -49,7 +49,6 @@ export class App {
     public start(): void {
         this.cart.drawCart();
         this.cart.setCurrentValues(this.getSum(), this.getCount());
-        this.cart.resetBtn(); // will be remove at the end
 
         const searchParams = Object.fromEntries(new URLSearchParams(window.location.search));
 

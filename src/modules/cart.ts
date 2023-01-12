@@ -7,7 +7,7 @@ export class Cart {
         this.basketWrapper = document.createElement('div');
         this.basketWrapper.classList.add('basket-wrapper');
         this.basketWrapper.innerHTML =
-            `<button class="reset-basket">reset</button>
+            `
             <p class="total-amount"></p>
             <div class="basket-background">
                 <img
@@ -28,15 +28,5 @@ export class Cart {
         cartSum.textContent = `€${currentSum}`;
         const cartCount: Element = document.querySelector('.counter')!;
         cartCount.textContent = currentCount;
-    }
-
-    //will be remove at the end
-    public resetBtn(): void {
-        const resetBtn: Element = document.querySelector('.reset-basket')!;
-        resetBtn.addEventListener('click', (): void => {
-            localStorage.setItem('sum', '0');
-            localStorage.setItem('count', '0');
-            this.setCurrentValues('0', '0');
-        });
     }
 }
