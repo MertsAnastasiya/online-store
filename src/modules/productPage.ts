@@ -1,18 +1,18 @@
 'use strict';
-import './sass/styles.scss';
-import { productsData } from './modules/data';
-import { IProduct } from './modules/interfaces/product.interface';
-
-const IMAGE_COUNT = 3;
+import { productsData } from './data';
+import { OnClickButton } from './interfaces/customTypes';
+import { IProduct } from './interfaces/product.interface';
 
 export class ProductPage {
     private parent: Element;
     private productDataLayout: string;
     private product: IProduct;
+    private onClickButton: OnClickButton;
 
-    constructor(parent: Element, id: number) {
+    constructor(parent: Element, id: number, onClickButton: OnClickButton) {
+        this.onClickButton = onClickButton;
+
         this.product = productsData.filter((data) => data.id === id)[0]!;
-
         this.parent = parent;
         this.productDataLayout = `
             <div class="route"></div>
@@ -49,13 +49,14 @@ export class ProductPage {
         const productName: Element = document.querySelector('.name')!;
         const brand: Element = document.querySelector('.brand')!;
         const description: Element = document.querySelector('.description')!;
-        const addCartButton: Element = document.querySelector('.add-cart')!;
+        const addCartButton = document.querySelector('.add-cart')! as HTMLButtonElement;
+        const buyButton: Element = document.querySelector('.button_buy')! as HTMLButtonElement;
         const price: Element = document.querySelector('.price')!;
         const rating: Element = document.querySelector('.rating')!;
         const mainImg = document.querySelector('.main-image')! as HTMLImageElement;
         const addImgWrapper: Element = document.querySelector('.additional-images__wrapper')!;
 
-        const routeText: string = `Store / ${this.product.category.charAt(0).toUpperCase()}${this.product.category.slice(1)} / ${this.product.brand} / ${this.product.title}`;
+        const routeText: string = `Store / ${this.product.category} / ${this.product.brand} / ${this.product.title}`;
         route.innerHTML = routeText;
         productName.innerHTML = this.product.title;
         brand!.innerHTML = this.product.brand;
@@ -68,7 +69,7 @@ export class ProductPage {
         }
 
         let i = 0;
-        while (i < IMAGE_COUNT) {
+        while (i !== 3) {
             if (this.product.images[i]) {
                 const addImg = document.createElement('img');
                 addImg.classList.add('additional-image')
@@ -80,5 +81,7 @@ export class ProductPage {
             }
             i++;
         }
+        addCartButton.addEventListener('click', () => this.onClickButton('cart'));
+        buyButton.addEventListener('click', () => this.onClickButton('buy'));
     }
 }

@@ -11,7 +11,6 @@ import {
 import { IProduct } from '../interfaces/product.interface';
 import { DualSlider } from './sliders';
 import { Search } from './search';
-import { productsData } from '../data';
 
 //I'll change it later when all layout is refactored
 const wrapperFiltres: Element = document.querySelector('.filters')!;
@@ -60,8 +59,8 @@ export class GlobalFilters {
 
         const sliderPrice = new DualSlider(
             wrapperSliders,
-            this.getMin(productsData, 'price'),
-            this.getMax(productsData, 'price'),
+            0,
+            3000,
             '1',
             'price',
             (sliderType: SliderType, currentSliderValue: SliderValue) =>
@@ -70,8 +69,8 @@ export class GlobalFilters {
 
         const sliderStock = new DualSlider(
             wrapperSliders,
-            this.getMin(productsData, 'stock'),
-            this.getMax(productsData, 'stock'),
+            0,
+            100,
             '1',
             'stock',
             (sliderType: SliderType, currentSliderValue: SliderValue) =>
@@ -174,25 +173,5 @@ export class GlobalFilters {
             this.currentSliders,
             this.currentSearch
         );
-    }
-
-    private getMax(data: IProduct[], property: keyof IProduct): number{
-        let max: number = 0;
-        data.forEach((product) => {
-            if(product[property] > max) {
-                max = product[property] as number;
-            }
-        });
-        return max;
-    }
-
-    private getMin(data: IProduct[], property: keyof IProduct): number{
-        let min: number = this.getMax(data, property);
-        data.forEach((product) => {
-            if(product[property] < min) {
-                min = product[property] as number;
-            }
-        });
-        return min;
     }
 }

@@ -7,7 +7,8 @@ import { ProductList } from '../product/productList';
 import { Cart } from '../cart';
 import { SearchParams } from '../searchParams';
 import { Button } from '../filters/button';
-import { ProductPage } from '../../productPage';
+import { ProductPage } from '../productPage';
+import { PaymentForm } from '../paymentForm';
 
 export class App {
     private productList: ProductList;
@@ -53,18 +54,13 @@ export class App {
         const searchParams = Object.fromEntries(new URLSearchParams(window.location.search));
 
         if (Object.keys(searchParams).includes('id')) {
-            const productView = new ProductPage(document.querySelector('.main__container')!,Number(searchParams.id));
+            const productView = new ProductPage(document.querySelector('.main__container')!, Number(searchParams.id), this.onClickButton);
             productView.drawProductPage();
         } else {
             this.globalFiltres.createFilters(productsData);
-            // console.log(this.getMinPrice(productsData));
-            // console.log(this.getMaxPrice(productsData));
             if (Object.keys(searchParams).length !== 0) {
-                console.log(searchParams);
-
                 for(const key in searchParams) {
                     if (key === 'price' || key === 'stock') {
-                        console.log(searchParams[key]);
                         const objectMinMax: SliderValue = {min: Number(searchParams[key]!.split('/')[0]), max: Number(searchParams[key]!.split('/')[1])};
                         this.globalFiltres.setCurrentSliders(key as SliderType, objectMinMax);
                     } else if (key === 'category' || key === 'brand') {
@@ -120,7 +116,7 @@ export class App {
 
     public onProductClick(id: number) {
         window.open(
-            `${window.location.href}?id=${id}`,
+            `${window.location.origin}?id=${id}`,
             '_blank'
         );
     }
@@ -149,7 +145,7 @@ export class App {
         localStorage.setItem('count', amount);
     }
 
-    private onClickButton(type: string) {
+    private onClickButton(type: string): void {
         switch (type) {
             case 'copy': {
                 const temp: HTMLInputElement = document.createElement('input');
@@ -169,10 +165,22 @@ export class App {
                 });
                 this.searchParams.clearUrl();
                 this.globalFiltres.clearFilters();
+                break;
             }
+            case 'buy': {
+                const paymentForm = new PaymentForm(document.querySelector('.main__container')!, this.onClickButton);
+                paymentForm.drawForm();
+                break;
+            }
+            case 'pay': {
+                console.log('pay');
+                document.querySelector('.modal-window')!.innerHTML = `<p class="message">The order accepted!</p>`;
+                setTimeout(() => window.location.href = window.location.origin, 2000);
+                break;
+            }
+
             default:
                 throw new Error('Something went wrong');
-                break;
         }
     }
 }
