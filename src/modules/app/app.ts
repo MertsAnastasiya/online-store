@@ -115,7 +115,7 @@ export class App {
 
     public onProductClick(id: number) {
         window.open(
-            `${window.location.origin}?id=${id}`,
+            `${window.location.href}?id=${id}`,
             '_blank'
         );
     }
